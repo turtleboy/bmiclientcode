@@ -8,9 +8,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +21,7 @@ import android.widget.Toast;
 import com.google.android.gcm.GCMRegistrar;
  
 public class MainActivity extends Activity {
+	private static final String TAG = MainActivity.class.getSimpleName();
     // label to display gcm messages
     TextView lblMessage;
  
@@ -41,14 +45,14 @@ public class MainActivity extends Activity {
         cd = new ConnectionDetector(getApplicationContext());
  
         // Check if Internet present
-        if (!cd.isConnectingToInternet()) {
-            // Internet Connection is not present
-            alert.showAlertDialog(MainActivity.this,
-                    "Internet Connection Error",
-                    "Please connect to working Internet connection", false);
-            // stop executing code by return
-            return;
-        }
+//        if (!cd.isConnectingToInternet()) {
+//            // Internet Connection is not present
+//            alert.showAlertDialog(MainActivity.this,
+//                    "Internet Connection Error",
+//                    "Please connect to working Internet connection", false);
+//            // stop executing code by return
+//            return;
+//        }
  
         // Getting name, email from intent
         Intent i = getIntent();
@@ -106,8 +110,27 @@ public class MainActivity extends Activity {
         }
         
         WebView webView = (WebView)findViewById(R.id.webView1);
-        webView.loadUrl("http://www.google.com");
+        
+        if(isNetworkAvailable() == true){
+            webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+            webView.loadUrl("http://www.google.com");
+        } else {
+            webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+            webView.loadUrl("http://www.google.com");
+        }
+        
+        
+        
+        
     }      //end of oncreate
+    
+    
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null;
+    }
+    
  
     /**
      * Receiving push messages
@@ -147,5 +170,25 @@ public class MainActivity extends Activity {
         }
         super.onDestroy();
     }
+
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		
+		
+		
+        
+        
+
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Log.e(TAG, "in onResume in mainactivity");
+		
+	}
+    
+    
  
 }

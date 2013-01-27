@@ -2,14 +2,18 @@ package com.bmi.bmitestapp;
 
 import static com.bmi.bmitestapp.CommonUtilities.SENDER_ID;
 import static com.bmi.bmitestapp.CommonUtilities.SERVER_URL;
+
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
  
 public class RegisterActivity extends Activity {
+	private static final String TAG = RegisterActivity.class.getSimpleName();
     // alert dialog manager
     AlertDialogManager alert = new AlertDialogManager();
  
@@ -18,7 +22,14 @@ public class RegisterActivity extends Activity {
  
     // UI elements
     EditText txtName;
-    EditText txtEmail;
+    @Override
+	protected void onResume() {
+		super.onResume();
+		Log.e(TAG, "in onresume in registeractivity");
+		
+	}
+
+	EditText txtEmail;
  
     // Register button
     Button btnRegister;
@@ -31,14 +42,14 @@ public class RegisterActivity extends Activity {
         cd = new ConnectionDetector(getApplicationContext());
  
         // Check if Internet present
-        if (!cd.isConnectingToInternet()) {
-            // Internet Connection is not present
-            alert.showAlertDialog(RegisterActivity.this,
-                    "Internet Connection Error",
-                    "Please connect to working Internet connection", false);
-            // stop executing code by return
-            return;
-        }
+//        if (!cd.isConnectingToInternet()) {
+//            // Internet Connection is not present
+//            alert.showAlertDialog(RegisterActivity.this,
+//                    "Internet Connection Error",
+//                    "Please connect to working Internet connection", false);
+//            // stop executing code by return
+//            return;
+//        }
  
         // Check if GCM configuration is set
         if (SERVER_URL == null || SENDER_ID == null || SERVER_URL.length() == 0
@@ -83,7 +94,7 @@ public class RegisterActivity extends Activity {
 //                }
             	
             	Intent i = new Intent(getApplicationContext(), MainActivity.class);
-            	
+            	i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             	i.putExtra("name", "hardcoded client name");
                 i.putExtra("email", "hardcoded email");
                 startActivity(i);
