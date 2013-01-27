@@ -11,6 +11,7 @@ import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.webkit.WebView;
 import android.widget.TextView;
 import android.widget.Toast;
  
@@ -103,7 +104,10 @@ public class MainActivity extends Activity {
                 mRegisterTask.execute(null, null, null);
             }
         }
-    }      
+        
+        WebView webView = (WebView)findViewById(R.id.webView1);
+        webView.loadUrl("http://www.google.com");
+    }      //end of oncreate
  
     /**
      * Receiving push messages

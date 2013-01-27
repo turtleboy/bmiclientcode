@@ -50,8 +50,8 @@ public class RegisterActivity extends Activity {
              return;
         }
  
-        txtName = (EditText) findViewById(R.id.txtName);
-        txtEmail = (EditText) findViewById(R.id.txtEmail);
+        //txtName = (EditText) findViewById(R.id.txtName);
+        //txtEmail = (EditText) findViewById(R.id.txtEmail);
         btnRegister = (Button) findViewById(R.id.btnRegister);
  
         /*
@@ -62,26 +62,35 @@ public class RegisterActivity extends Activity {
             @Override
             public void onClick(View arg0) {
                 // Read EditText dat
-                String name = txtName.getText().toString();
-                String email = txtEmail.getText().toString();
+               // String name = txtName.getText().toString();
+                //String email = txtEmail.getText().toString();
  
                 // Check if user filled the form
-                if(name.trim().length() > 0 && email.trim().length() > 0){
-                    // Launch Main Activity
-                    Intent i = new Intent(getApplicationContext(), MainActivity.class);
- 
-                    // Registering user on our server
-                    // Sending registraiton details to MainActivity
-                    i.putExtra("name", name);
-                    i.putExtra("email", email);
-                    startActivity(i);
-                    finish();
-                }else{
-                    // user doen't filled that data
-                    // ask him to fill the form
-                    alert.showAlertDialog(RegisterActivity.this, "Registration Error!", "Please enter your details", false);
-                }
-            }
+//                if(name.trim().length() > 0 && email.trim().length() > 0){
+//                    // Launch Main Activity
+//                    Intent i = new Intent(getApplicationContext(), MainActivity.class);
+// 
+//                    // Registering user on our server
+//                    // Sending registraiton details to MainActivity
+//                    i.putExtra("name", name);
+//                    i.putExtra("email", email);
+//                    startActivity(i);
+//                    finish();
+//                }else{
+//                    // user doen't filled that data
+//                    // ask him to fill the form
+//                    alert.showAlertDialog(RegisterActivity.this, "Registration Error!", "Please enter your details", false);
+//                }
+            	
+            	Intent i = new Intent(getApplicationContext(), MainActivity.class);
+            	
+            	i.putExtra("name", "hardcoded client name");
+                i.putExtra("email", "hardcoded email");
+                startActivity(i);
+                finish();
+            	
+            	
+            }//end of onClick
         });
     }
  
