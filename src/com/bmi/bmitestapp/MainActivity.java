@@ -17,33 +17,33 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.TextView;
 import android.widget.Toast;
- 
+
 import com.google.android.gcm.GCMRegistrar;
- 
+
 public class MainActivity extends Activity {
 	private static final String TAG = MainActivity.class.getSimpleName();
     // label to display gcm messages
     TextView lblMessage;
- 
+
     // Asyntask
     AsyncTask<Void, Void, Void> mRegisterTask;
- 
+
     // Alert dialog manager
     AlertDialogManager alert = new AlertDialogManager();
- 
+
     // Connection detector
     ConnectionDetector cd;
- 
+
     public static String name;
     public static String email;
- 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
- 
+
         cd = new ConnectionDetector(getApplicationContext());
- 
+
         // Check if Internet present
 //        if (!cd.isConnectingToInternet()) {
 //            // Internet Connection is not present
@@ -53,28 +53,28 @@ public class MainActivity extends Activity {
 //            // stop executing code by return
 //            return;
 //        }
- 
+
         // Getting name, email from intent
         Intent i = getIntent();
- 
+
         name = i.getStringExtra("name");
-        email = i.getStringExtra("email");     
- 
+        email = i.getStringExtra("email");
+
         // Make sure the device has the proper dependencies.
         GCMRegistrar.checkDevice(this);
- 
+
         // Make sure the manifest was properly set - comment out this line
         // while developing the app, then uncomment it when it's ready.
         GCMRegistrar.checkManifest(this);
- 
+
         lblMessage = (TextView) findViewById(R.id.lblMessage);
- 
+
         registerReceiver(mHandleMessageReceiver, new IntentFilter(
                 DISPLAY_MESSAGE_ACTION));
- 
+
         // Get GCM registration id
         final String regId = GCMRegistrar.getRegistrationId(this);
- 
+
         // Check if regid already presents
         if (regId.equals("")) {
             // Registration is not present, register now with GCM
@@ -90,7 +90,7 @@ public class MainActivity extends Activity {
                 // hence the use of AsyncTask instead of a raw thread.
                 final Context context = this;
                 mRegisterTask = new AsyncTask<Void, Void, Void>() {
- 
+
                     @Override
                     protected Void doInBackground(Void... params) {
                         // Register on our server
@@ -98,40 +98,39 @@ public class MainActivity extends Activity {
                         ServerUtilities.register(context, name, email, regId);
                         return null;
                     }
- 
+
                     @Override
                     protected void onPostExecute(Void result) {
                         mRegisterTask = null;
                     }
- 
+
                 };
                 mRegisterTask.execute(null, null, null);
             }
         }
-        
+
         WebView webView = (WebView)findViewById(R.id.webView1);
-        
+
         if(isNetworkAvailable() == true){
             webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
-            webView.loadUrl("http://www.google.com");
         } else {
             webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-            webView.loadUrl("http://www.google.com");
         }
-        
-        
-        
-        
+        webView.loadUrl("http://bmi.cubecore.co.uk/");
+
+
+
+
     }      //end of oncreate
-    
-    
+
+
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null;
     }
-    
- 
+
+
     /**
      * Receiving push messages
      * */
@@ -141,22 +140,22 @@ public class MainActivity extends Activity {
             String newMessage = intent.getExtras().getString(EXTRA_MESSAGE);
             // Waking up mobile if it is sleeping
             WakeLocker.acquire(getApplicationContext());
- 
+
             /**
              * Take appropriate action on this message
              * depending upon your app requirement
              * For now i am just displaying it on the screen
              * */
- 
+
             // Showing received message
             lblMessage.append(newMessage + "\n");
             Toast.makeText(getApplicationContext(), "New Message: " + newMessage, Toast.LENGTH_LONG).show();
- 
+
             // Releasing wake lock
             WakeLocker.release();
         }
     };
- 
+
     @Override
     protected void onDestroy() {
         if (mRegisterTask != null) {
@@ -174,11 +173,11 @@ public class MainActivity extends Activity {
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-		
-		
-		
-        
-        
+
+
+
+
+
 
 	}
 
@@ -186,9 +185,9 @@ public class MainActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		Log.e(TAG, "in onResume in mainactivity");
-		
+
 	}
-    
-    
- 
+
+
+
 }
