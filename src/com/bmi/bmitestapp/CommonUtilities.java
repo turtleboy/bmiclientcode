@@ -2,25 +2,25 @@ package com.bmi.bmitestapp;
 
 import android.content.Context;
 import android.content.Intent;
- 
+
 public final class CommonUtilities {
- 
+
     // give your server registration url here
-    static final String SERVER_URL = "http://mobilewebexpert.co.uk/pushtest/register.php";
- 
+    static final String SERVER_URL = "http://mobilewebexpert.co.uk/alex-app/android/register.php";
+
     // Google project id
     static final String SENDER_ID = "598080744593";
- 
+
     /**
      * Tag used on log messages.
      */
     static final String TAG = "bmi GCM";
- 
+
     static final String DISPLAY_MESSAGE_ACTION =
             "com.bmi.bmitestapp.DISPLAY_MESSAGE";
- 
+
     static final String EXTRA_MESSAGE = "message";
- 
+
     /**
      * Notifies UI to display a message.
      * <p>
